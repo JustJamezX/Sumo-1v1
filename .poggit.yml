@@ -1,0 +1,8 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/DavidFlashCZ/Sumo-1v1
+build-by-default: true
+branches:
+- master
+projects:
+  Sumo-1v1:
+    path: ""
+...
