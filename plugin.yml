@@ -1,0 +1,33 @@
+name: Sumo1v1
+api: 3.0.0
+version: 1.0.5
+main: davidflash\sumo1v1\Sumo1v1
+author: DavidFlash
+description: Sumo minigame plugin
+
+permissions:
+  sumo.cmd:
+    description: Permission to all Sumo commands
+    default: op
+    children:
+      sumo.cmd.help:
+        description: Permission for /sumo help
+        default: op
+      sumo.cmd.create:
+        description: Permission for /sumo create
+        default: op
+      sumo.cmd.remove:
+        description: Permission for /sumo remove
+        default: op
+      sumo.cmd.set:
+        description: Permission for /sumo set
+        default: op
+      sumo.cmd.arenas:
+        description: Permission for /sumo arenas
+        default: op
+      sumo.cmd.join:
+        description: Permission for /sumo join
+        default: true
+      sumo.cmd.credits:
+        description: Permission for /sumo credits
+        default: true
