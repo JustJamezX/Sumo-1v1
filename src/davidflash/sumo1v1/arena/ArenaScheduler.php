@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace vixikhd\onevsone\arena;
+namespace davidflash\sumo1v1\arena;
 
 use pocketmine\level\Level;
 use pocketmine\level\Position;
@@ -26,8 +26,8 @@ use pocketmine\level\sound\AnvilUseSound;
 use pocketmine\level\sound\ClickSound;
 use pocketmine\scheduler\Task;
 use pocketmine\tile\Sign;
-use vixikhd\onevsone\math\Time;
-use vixikhd\onevsone\math\Vector3;
+use davidflash\sumo1v1\math\Time;
+use davidflash\sumo1v1\math\Vector3;
 
 /**
  * Class ArenaScheduler
@@ -69,7 +69,7 @@ class ArenaScheduler extends Task {
         switch ($this->plugin->phase) {
             case Arena::PHASE_LOBBY:
                 if(count($this->plugin->players) >= 2) {
-                    $this->plugin->broadcastMessage("§6> Starting in " . Time::calculateTime($this->startTime) . " seconds.", Arena::MSG_TIP);
+                    $this->plugin->broadcastMessage("§6Sumo > Starting in " . Time::calculateTime($this->startTime) . " seconds.", Arena::MSG_TIP);
                     $this->startTime--;
                     if($this->startTime == 0) {
                         $this->plugin->startGame();
@@ -84,17 +84,17 @@ class ArenaScheduler extends Task {
                     }
                 }
                 else {
-                    $this->plugin->broadcastMessage("§c> Waiting for players..", Arena::MSG_TIP);
+                    $this->plugin->broadcastMessage("§cSumo > Waiting for players!", Arena::MSG_TIP);
                     $this->startTime = 10;
                 }
                 break;
             case Arena::PHASE_GAME:
-                $this->plugin->broadcastMessage("§a> Players: " . count($this->plugin->players) . " , time to end: " . Time::calculateTime($this->gameTime) . "", Arena::MSG_TIP);
+                $this->plugin->broadcastMessage("§6Sumo > §gPlayers: " . count($this->plugin->players) . " , time to end: " . Time::calculateTime($this->gameTime) . "", Arena::MSG_TIP);
                 if($this->plugin->checkEnd()) $this->plugin->startRestart();
                 $this->gameTime--;
                 break;
             case Arena::PHASE_RESTART:
-                $this->plugin->broadcastMessage("§a> Restarting in {$this->restartTime} seconds.", Arena::MSG_TIP);
+                $this->plugin->broadcastMessage("§e> Restartarting in {$this->restartTime} seconds.", Arena::MSG_TIP);
                 $this->restartTime--;
 
                 switch ($this->restartTime) {

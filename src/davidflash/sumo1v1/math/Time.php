@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace vixikhd\onevsone\math;
+namespace davidflash\sumo1v1\math;
 
 /**
  * Class Time

@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace vixikhd\onevsone\provider;
+namespace davidflash\sumo1v1\provider;
 
 use pocketmine\level\Level;
 use pocketmine\utils\Config;
-use vixikhd\onevsone\arena\Arena;
-use vixikhd\onevsone\OneVsOne;
+use davidflash\sumo1v1\arena\Arena;
+use davidflash\sumo1v1\OneVsOne;
 
 /**
  * Class YamlDataProvider

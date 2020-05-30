@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace vixikhd\onevsone\commands;
+namespace davidflash\sumo1v1\commands;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -26,8 +26,8 @@ use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
-use vixikhd\onevsone\arena\Arena;
-use vixikhd\onevsone\OneVsOne;
+use davidflash\sumo1v1\arena\Arena;
+use davidflash\sumo1v1\OneVsOne;
 
 /**
  * Class OneVsOneCommand
@@ -55,7 +55,7 @@ class OneVsOneCommand extends Command implements PluginIdentifiableCommand {
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if(!isset($args[0])) {
-            $sender->sendMessage("§eUse: §6/sumo help");
+            $sender->sendMessage("§ePoužij: §6/sumo help");
             return;
         }
 

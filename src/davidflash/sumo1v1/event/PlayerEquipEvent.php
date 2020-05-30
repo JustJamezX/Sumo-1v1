@@ -18,12 +18,12 @@
 
 declare(strict_types=1);
 
-namespace vixikhd\onevsone\event;
+namespace davidflash\sumo1v1\event;
 
 use pocketmine\event\plugin\PluginEvent;
 use pocketmine\Player;
-use vixikhd\onevsone\arena\Arena;
-use vixikhd\onevsone\OneVsOne;
+use davidflash\sumo1v1\arena\Arena;
+use davidflash\sumo1v1\OneVsOne;
 
 /**
  * Class PlayerEquipEvent

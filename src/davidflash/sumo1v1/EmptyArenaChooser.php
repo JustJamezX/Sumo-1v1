@@ -18,9 +18,9 @@
 
 declare(strict_types=1);
 
-namespace vixikhd\onevsone;
+namespace davidflash\sumo1v1;
 
-use vixikhd\onevsone\arena\Arena;
+use davidflash\sumo1v1\arena\Arena;
 
 /**
  * Class EmptyArenaChooser

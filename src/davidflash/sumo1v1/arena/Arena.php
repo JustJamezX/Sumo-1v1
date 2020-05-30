@@ -18,7 +18,7 @@
 
 declare(strict_types=1);
 
-namespace vixikhd\onevsone\arena;
+namespace davidflash\sumo1v1\arena;
 
 use pocketmine\block\Block;
 use pocketmine\event\entity\EntityLevelChangeEvent;
@@ -35,10 +35,10 @@ use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\tile\Tile;
 use pocketmine\entity\Effect;
-use vixikhd\onevsone\event\PlayerArenaWinEvent;
-use vixikhd\onevsone\event\PlayerEquipEvent;
-use vixikhd\onevsone\math\Vector3;
-use vixikhd\onevsone\OneVsOne;
+use davidflash\sumo1v1\event\PlayerArenaWinEvent;
+use davidflash\sumo1v1\event\PlayerEquipEvent;
+use davidflash\sumo1v1\math\Vector3;
+use davidflash\sumo1v1\OneVsOne;
 
 
 /**
@@ -110,17 +110,17 @@ class Arena implements Listener {
      */
     public function joinToArena(Player $player) {
         if(!$this->data["enabled"]) {
-            $player->sendMessage("§6> Arena is under setup!");
+            $player->sendMessage("§cSumo > Arena is under setup!");
             return;
         }
 
         if(count($this->players) >= $this->data["slots"]) {
-            $player->sendMessage("§6> Arena is full!");
+            $player->sendMessage("§cSumo > Arena is full!");
             return;
         }
 
         if($this->inGame($player)) {
-            $player->sendMessage("§6> You are already in a game!");
+            $player->sendMessage("§cSumo > You are already in-game!");
             return;
         }
 
@@ -135,7 +135,7 @@ class Arena implements Listener {
             }
         }
 
-        $this->broadcastMessage("§6> Player {$player->getName()} joined! §e[".count($this->players)."/{$this->data["slots"]}]");
+        $this->broadcastMessage("§6Sumo > Player {$player->getName()} joined! §e[".count($this->players)."/{$this->data["slots"]}]");
           
         $player->getInventory()->clearAll();
         $player->getArmorInventory()->clearAll();
@@ -214,7 +214,7 @@ class Arena implements Listener {
         $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
 
         if(!$death) {
-            $this->broadcastMessage("§6> Player {$player->getName()} disconnected. §e[".count($this->players)."/{$this->data["slots"]}]");
+            $this->broadcastMessage("§6Sumo > Player {$player->getName()} leaved the match. §e[".count($this->players)."/{$this->data["slots"]}]");
         }
 
         if($quitMsg != "") {
@@ -232,7 +232,8 @@ class Arena implements Listener {
         $this->players = $players;
         $this->phase = 1;
 
-        $this->broadcastMessage("GAME ON!", self::MSG_TITLE);
+        $this->broadcastMessage("Game On!", self::MSG_TITLE);
+        $this->broadcastMessage("§6Sumo > §eAuthor: David Flash, used code from 1vs1 use §f/sumo credits");
     }
 
     public function startRestart() {
@@ -358,11 +359,11 @@ class Arena implements Listener {
         }
 
         if($this->phase == self::PHASE_GAME) {
-            $player->sendMessage("§c> Arena is in-game");
+            $player->sendMessage("§cSumo > Arena is in-game");
             return;
         }
         if($this->phase == self::PHASE_RESTART) {
-            $player->sendMessage("§c> Arena is restarting!");
+            $player->sendMessage("§cSumo > Arena is restarting!");
             return;
         }
 
@@ -418,7 +419,7 @@ class Arena implements Listener {
         $player = $event->getEntity();
         if(!$player instanceof Player) return;
         if($this->inGame($player)) {
-            $this->disconnectPlayer($player, "You leaved the Sumo Match!");
+            $this->disconnectPlayer($player, "Sumo > You leaved the Sumo Arena!");
         }
     }
 
@@ -496,10 +497,10 @@ class Arena implements Listener {
 
     private function createBasicData() {
         $this->data = [
-            "level" => null,
+            "level" => world,
             "slots" => 2,
             "spawns" => [],
-            "enabled" => false,
+            "enabled" => true,
             "joinsign" => []
         ];
     }
