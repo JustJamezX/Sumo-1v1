@@ -69,7 +69,7 @@ class ArenaScheduler extends Task {
         switch ($this->plugin->phase) {
             case Arena::PHASE_LOBBY:
                 if(count($this->plugin->players) >= 2) {
-                    $this->plugin->broadcastMessage("§a> Startování za " . Time::calculateTime($this->startTime) . " sekund.", Arena::MSG_TIP);
+                    $this->plugin->broadcastMessage("§6> Starting in " . Time::calculateTime($this->startTime) . " seconds.", Arena::MSG_TIP);
                     $this->startTime--;
                     if($this->startTime == 0) {
                         $this->plugin->startGame();
@@ -84,17 +84,17 @@ class ArenaScheduler extends Task {
                     }
                 }
                 else {
-                    $this->plugin->broadcastMessage("§c> Čekání na hráče!", Arena::MSG_TIP);
+                    $this->plugin->broadcastMessage("§c> Waiting for players..", Arena::MSG_TIP);
                     $this->startTime = 10;
                 }
                 break;
             case Arena::PHASE_GAME:
-                $this->plugin->broadcastMessage("§a> Počet hráčů: " . count($this->plugin->players) . " , čas do konce: " . Time::calculateTime($this->gameTime) . "", Arena::MSG_TIP);
+                $this->plugin->broadcastMessage("§a> Players: " . count($this->plugin->players) . " , time to end: " . Time::calculateTime($this->gameTime) . "", Arena::MSG_TIP);
                 if($this->plugin->checkEnd()) $this->plugin->startRestart();
                 $this->gameTime--;
                 break;
             case Arena::PHASE_RESTART:
-                $this->plugin->broadcastMessage("§a> Restartování za {$this->restartTime} sekund.", Arena::MSG_TIP);
+                $this->plugin->broadcastMessage("§a> Restarting in {$this->restartTime} seconds.", Arena::MSG_TIP);
                 $this->restartTime--;
 
                 switch ($this->restartTime) {
@@ -148,21 +148,21 @@ class ArenaScheduler extends Task {
         switch ($this->plugin->phase) {
             case Arena::PHASE_LOBBY:
                 if(count($this->plugin->players) >= $this->plugin->data["slots"]) {
-                    $signText[2] = "§6Plná";
-                    $signText[3] = "§8Mapa: §7{$this->plugin->level->getFolderName()}";
+                    $signText[2] = "§6Full";
+                    $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
                 }
                 else {
-                    $signText[2] = "§aNapoj se!";
-                    $signText[3] = "§8Mapa: §7{$this->plugin->level->getFolderName()}";
+                    $signText[2] = "§aJoin!";
+                    $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
                 }
                 break;
             case Arena::PHASE_GAME:
-                $signText[2] = "§5VeHře";
-                $signText[3] = "§8Mapa: §7{$this->plugin->level->getFolderName()}";
+                $signText[2] = "§5InGame";
+                $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
                 break;
             case Arena::PHASE_RESTART:
-                $signText[2] = "§cRestartování...";
-                $signText[3] = "§8Mapa: §7{$this->plugin->level->getFolderName()}";
+                $signText[2] = "§cRestarting...";
+                $signText[3] = "§8Map: §7{$this->plugin->level->getFolderName()}";
                 break;
         }
 

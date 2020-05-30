@@ -55,7 +55,7 @@ class OneVsOneCommand extends Command implements PluginIdentifiableCommand {
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if(!isset($args[0])) {
-            $sender->sendMessage("§ePoužij: §6/sumo help");
+            $sender->sendMessage("§eUse: §6/sumo help");
             return;
         }
 

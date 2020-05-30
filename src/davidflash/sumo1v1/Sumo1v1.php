@@ -181,6 +181,6 @@ class OneVsOne extends PluginBase implements Listener {
             $arena->joinToArena($player);
             return;
         }
-        $player->sendMessage("§c> Všechny areny jsou plné!");
+        $player->sendMessage("§c> All arenas full!");
     }
 }
