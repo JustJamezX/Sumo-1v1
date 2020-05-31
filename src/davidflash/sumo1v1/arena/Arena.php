@@ -182,7 +182,6 @@ class Arena implements Listener {
         $player->getInventory()->clearAll();
         $player->getArmorInventory()->clearAll();
         $player->getCursorInventory()->clearAll();
-        $player->addEffect(Effect::getEffect(Effect::REGENERATION));
 
         $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
 
@@ -207,7 +206,6 @@ class Arena implements Listener {
 
         $this->broadcastMessage("Hra začala!", self::MSG_TITLE);
         $this->broadcastMessage("§6Autor:§e David Flash, použij §f/sumo credits pro více info.");
-        $player->addEffect(Effect::getEffect(Effect::REGENERATION));
 
     }
 
