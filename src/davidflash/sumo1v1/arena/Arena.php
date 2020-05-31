@@ -38,6 +38,7 @@ use pocketmine\Server;
 use pocketmine\Player;
 use pocketmine\tile\Tile;
 use pocketmine\entity\Effect;
+use pocketmine\entity\EffectInstance;
 use davidflash\sumo1v1\event\PlayerArenaWinEvent;
 use davidflash\sumo1v1\event\PlayerEquipEvent;
 use davidflash\sumo1v1\math\Vector3;
@@ -113,17 +114,17 @@ class Arena implements Listener {
      */
     public function joinToArena(Player $player) {
         if(!$this->data["enabled"]) {
-            $player->sendMessage("§c> Arena is under setup!");
+            $player->sendMessage("§cSumo > Arena is under setup!");
             return;
         }
 
         if(count($this->players) >= $this->data["slots"]) {
-            $player->sendMessage("§c> Arena je plná!");
+            $player->sendMessage("§cSumo > Arena is full!");
             return;
         }
 
         if($this->inGame($player)) {
-            $player->sendMessage("§c> Již jsi ve hře!");
+            $player->sendMessage("§cSumo > You are already in-game!");
             return;
         }
 
@@ -138,7 +139,7 @@ class Arena implements Listener {
             }
         }
 
-        $this->broadcastMessage("§6> Hráč {$player->getName()} se připojil! §e[".count($this->players)."/{$this->data["slots"]}]");
+        $this->broadcastMessage("§6Sumo > Player {$player->getName()} joined the game! §e[".count($this->players)."/{$this->data["slots"]}]");
           
         $player->getInventory()->clearAll();
         $player->getArmorInventory()->clearAll();
@@ -147,6 +148,9 @@ class Arena implements Listener {
         $player->setGamemode($player::ADVENTURE);
         $player->setHealth(20);
         $player->setFood(20);
+
+        $player->addEffect(new EffectInstance(Effect::getEffect(Effect::REGENERATION), 2147483647, 2));
+
     }
 
     /**
@@ -186,11 +190,11 @@ class Arena implements Listener {
         $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
 
         if(!$death) {
-            $this->broadcastMessage("§6> Hráč {$player->getName()} se odpojil. §e[".count($this->players)."/{$this->data["slots"]}]");
+            $this->broadcastMessage("§6Sumo > Player {$player->getName()} left the game. §e[".count($this->players)."/{$this->data["slots"]}]");
         }
 
         if($quitMsg != "") {
-            $player->sendMessage("§a> $quitMsg");
+            $player->sendMessage("§6Sumo > $quitMsg");
         }
     }
 
@@ -204,8 +208,8 @@ class Arena implements Listener {
         $this->players = $players;
         $this->phase = 1;
 
-        $this->broadcastMessage("Hra začala!", self::MSG_TITLE);
-        $this->broadcastMessage("§6Autor:§e David Flash, použij §f/sumo credits pro více info.");
+        $this->broadcastMessage("§6S§cU§bM§aO", self::MSG_TITLE);
+        $this->broadcastMessage("§6Game Started!", self::MSG_TIP);
 
     }
 
@@ -220,9 +224,9 @@ class Arena implements Listener {
             return;
         }
 
-        $player->addTitle("§aVyhrál jsi!");
+        $player->addTitle("§6YOU WON!");
         $this->plugin->getServer()->getPluginManager()->callEvent(new PlayerArenaWinEvent($this->plugin, $player, $this));
-        $this->plugin->getServer()->broadcastMessage("§6[Sumo] Hráč {$player->getName()} vyhrál hru na mapě {$this->level->getFolderName()}!");
+        $this->plugin->getServer()->broadcastMessage("§6[Sumo] Player {$player->getName()} won in {$this->level->getFolderName()}!");
         $this->phase = self::PHASE_RESTART;
     }
 
@@ -332,11 +336,11 @@ class Arena implements Listener {
         }
 
         if($this->phase == self::PHASE_GAME) {
-            $player->sendMessage("§c> Arena je ve hře");
+            $player->sendMessage("§cSumo > Arena is in-game");
             return;
         }
         if($this->phase == self::PHASE_RESTART) {
-            $player->sendMessage("§c> Arena se restartuje!");
+            $player->sendMessage("§cSumo > Arena is restarting!");
             return;
         }
 
@@ -360,7 +364,7 @@ class Arena implements Listener {
         }
         $this->toRespawn[$player->getName()] = $player;
         $this->disconnectPlayer($player, "", true);
-        $this->broadcastMessage("§a> {$this->plugin->getServer()->getLanguage()->translate($event->getDeathMessage())} §7[".count($this->players)."/{$this->data["slots"]}]");
+        $this->broadcastMessage("§6> {$this->plugin->getServer()->getLanguage()->translate($event->getDeathMessage())} §7[".count($this->players)."/{$this->data["slots"]}]");
         $event->setDeathMessage("");
         $event->setDrops([]);
     }
@@ -392,7 +396,7 @@ class Arena implements Listener {
         $player = $event->getEntity();
         if(!$player instanceof Player) return;
         if($this->inGame($player)) {
-            $this->disconnectPlayer($player, "Odpojil jsi se ze Sumo arény!");
+            $this->disconnectPlayer($player, "You left the Sumo Arena!");
         }
     }
 

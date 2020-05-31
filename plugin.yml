@@ -4,7 +4,7 @@ version: 1.0.5
 main: davidflash\sumo1v1\OneVsOne
 author: DavidFlash
 description: sumo minigame plugin
-website: https://github.com/GamakCZ/1vs1
+website: https://github.com/DavidFlashCZ/Sumo1v1
 
 permissions:
   1vs1.cmd:
@@ -12,20 +12,20 @@ permissions:
     default: op
     children:
       1vs1.cmd.help:
-        description: Permission for /1vs1 help
+        description: Permission for /sumo help
         default: op
       1vs1.cmd.create:
-        description: Permission for /1vs1 create
+        description: Permission for /sumo create
         default: op
       1vs1.cmd.remove:
-        description: Permission for /1vs1 remove
+        description: Permission for /sumo remove
         default: op
       1vs1.cmd.set:
-        description: Permission for /1vs1 set
+        description: Permission for /sumo set
         default: op
       1vs1.cmd.arenas:
-        description: Permission for /1vs1 arenas
+        description: Permission for /sumo arenas
         default: op
       1vs1.cmd.join:
-        description: Permission for /1vs1 join
+        description: Permission for /sumo join
         default: true
