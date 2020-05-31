@@ -1,22 +1,4 @@
 ---
-#
-## Sumo1v1 v1.0.0 configuration file
-#
-
-# Leave this like it is if you want normal Sumo1v1
-# You can add kits to your Sumo game if you want! 
-# Kits are randomly selected
-kits:
-  diamond:
-    helmet: [0, 0, 1] # [id, damage, count]
-    chestplate: [0, 0, 1]
-    leggings: [0, 0, 1]
-    boots: [0, 0, 1]
-    0: [0, 0, 0] # 1. inventory slot
-    1: [0, 0, 0] # 2. inventory slot
-    8: [0, 0, 0] # 9. inventory slot
-  #steve: [] # add more kits like 'steve' kit here without any items
-
 # It's recommended to leave this as "false"
 # Set false to disable hunger in game
 hunger: false

@@ -32,6 +32,9 @@ use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
+use pocketmine\command\CommandSender;
+use pocketmine\command\ConsoleCommandSender;
+use pocketmine\Server;
 use pocketmine\Player;
 use pocketmine\tile\Tile;
 use pocketmine\entity\Effect;
@@ -110,17 +113,17 @@ class Arena implements Listener {
      */
     public function joinToArena(Player $player) {
         if(!$this->data["enabled"]) {
-            $player->sendMessage("§cSumo > Arena is under setup!");
+            $player->sendMessage("§c> Arena is under setup!");
             return;
         }
 
         if(count($this->players) >= $this->data["slots"]) {
-            $player->sendMessage("§cSumo > Arena is full!");
+            $player->sendMessage("§c> Arena je plná!");
             return;
         }
 
         if($this->inGame($player)) {
-            $player->sendMessage("§cSumo > You are already in-game!");
+            $player->sendMessage("§c> Již jsi ve hře!");
             return;
         }
 
@@ -135,7 +138,7 @@ class Arena implements Listener {
             }
         }
 
-        $this->broadcastMessage("§6Sumo > Player {$player->getName()} joined! §e[".count($this->players)."/{$this->data["slots"]}]");
+        $this->broadcastMessage("§6> Hráč {$player->getName()} se připojil! §e[".count($this->players)."/{$this->data["slots"]}]");
           
         $player->getInventory()->clearAll();
         $player->getArmorInventory()->clearAll();
@@ -144,37 +147,6 @@ class Arena implements Listener {
         $player->setGamemode($player::ADVENTURE);
         $player->setHealth(20);
         $player->setFood(20);
-
-        $inv = $player->getArmorInventory();
-        if(empty($this->plugin->dataProvider->config["kits"]) || !is_array($this->plugin->dataProvider->config["kits"]) || $this->kit === null) {
-            $inv->setHelmet(Item::get(Item::DIAMOND_HELMET));
-            $inv->setChestplate(Item::get(Item::DIAMOND_CHESTPLATE));
-            $inv->setLeggings(Item::get(Item::DIAMOND_LEGGINGS));
-            $inv->setBoots(Item::get(Item::DIAMOND_BOOTS));
-
-            $player->getInventory()->addItem(Item::get(Item::IRON_SWORD));
-            $player->getInventory()->addItem(Item::get(Item::GOLDEN_APPLE, 0, 5));
-            $event = new PlayerEquipEvent($this->plugin, $player, $this);
-            $event->call();
-            return;
-        }
-
-
-        $kitData = $this->plugin->dataProvider->config["kits"][$this->kit];
-        if(isset($kitData["helmet"])) $inv->setHelmet(Item::get($kitData["helmet"][0], $kitData["helmet"][1], $kitData["helmet"][2]));
-        if(isset($kitData["chestplate"])) $inv->setChestplate(Item::get($kitData["chestplate"][0], $kitData["chestplate"][1], $kitData["chestplate"][2]));
-        if(isset($kitData["leggings"])) $inv->setLeggings(Item::get($kitData["leggings"][0], $kitData["leggings"][1], $kitData["leggings"][2]));
-        if(isset($kitData["boots"])) $inv->setBoots(Item::get($kitData["boots"][0], $kitData["boots"][1], $kitData["boots"][2]));
-
-        foreach ($kitData as $slot => [$id, $damage, $count]) {
-            if(is_numeric($slot)) {
-                $slot = (int)$slot;
-                $player->getInventory()->setItem($slot, Item::get($id, $damage, $count));
-            }
-        }
-
-        $event = new PlayerEquipEvent($this->plugin, $player, $this);
-        $event->call();
     }
 
     /**
@@ -210,11 +182,12 @@ class Arena implements Listener {
         $player->getInventory()->clearAll();
         $player->getArmorInventory()->clearAll();
         $player->getCursorInventory()->clearAll();
+        $player->addEffect(Effect::getEffect(Effect::REGENERATION));
 
         $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
 
         if(!$death) {
-            $this->broadcastMessage("§6Sumo > Player {$player->getName()} leaved the match. §e[".count($this->players)."/{$this->data["slots"]}]");
+            $this->broadcastMessage("§6> Hráč {$player->getName()} se odpojil. §e[".count($this->players)."/{$this->data["slots"]}]");
         }
 
         if($quitMsg != "") {
@@ -232,8 +205,10 @@ class Arena implements Listener {
         $this->players = $players;
         $this->phase = 1;
 
-        $this->broadcastMessage("Game On!", self::MSG_TITLE);
-        $this->broadcastMessage("§6Sumo > §eAuthor: David Flash, used code from 1vs1 use §f/sumo credits");
+        $this->broadcastMessage("Hra začala!", self::MSG_TITLE);
+        $this->broadcastMessage("§6Autor:§e David Flash, použij §f/sumo credits pro více info.");
+        $player->addEffect(Effect::getEffect(Effect::REGENERATION));
+
     }
 
     public function startRestart() {
@@ -247,9 +222,9 @@ class Arena implements Listener {
             return;
         }
 
-        $player->addTitle("§aYou Won!");
+        $player->addTitle("§aVyhrál jsi!");
         $this->plugin->getServer()->getPluginManager()->callEvent(new PlayerArenaWinEvent($this->plugin, $player, $this));
-        $this->plugin->getServer()->broadcastMessage("§6[Sumo] Player {$player->getName()} won in {$this->level->getFolderName()}!");
+        $this->plugin->getServer()->broadcastMessage("§6[Sumo] Hráč {$player->getName()} vyhrál hru na mapě {$this->level->getFolderName()}!");
         $this->phase = self::PHASE_RESTART;
     }
 
@@ -359,11 +334,11 @@ class Arena implements Listener {
         }
 
         if($this->phase == self::PHASE_GAME) {
-            $player->sendMessage("§cSumo > Arena is in-game");
+            $player->sendMessage("§c> Arena je ve hře");
             return;
         }
         if($this->phase == self::PHASE_RESTART) {
-            $player->sendMessage("§cSumo > Arena is restarting!");
+            $player->sendMessage("§c> Arena se restartuje!");
             return;
         }
 
@@ -419,7 +394,7 @@ class Arena implements Listener {
         $player = $event->getEntity();
         if(!$player instanceof Player) return;
         if($this->inGame($player)) {
-            $this->disconnectPlayer($player, "Sumo > You leaved the Sumo Arena!");
+            $this->disconnectPlayer($player, "Odpojil jsi se ze Sumo arény!");
         }
     }
 
@@ -497,10 +472,10 @@ class Arena implements Listener {
 
     private function createBasicData() {
         $this->data = [
-            "level" => world,
+            "level" => null,
             "slots" => 2,
             "spawns" => [],
-            "enabled" => true,
+            "enabled" => false,
             "joinsign" => []
         ];
     }
