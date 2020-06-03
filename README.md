@@ -8,6 +8,6 @@ PMMP (PocketMine) Sumo 1v1 plugin! Code used from plugin 1vs1 by GamakCZ (VixikC
 #
  Multi-World Support
 #
- Regeneration while fighting (to do)
+ Regeneration while fighting NEW!
 #
  Custom Sounds (to do)
