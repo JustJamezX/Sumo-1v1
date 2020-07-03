@@ -1,6 +1,6 @@
 name: Sumo1v1
-api: 3.0.0
-version: 1.0.5
+api: 3.14.0
+version: 1.0.6
 main: davidflash\sumo1v1\OneVsOne
 author: DavidFlash
 description: sumo minigame plugin
