@@ -3,6 +3,19 @@
 # Set false to disable hunger in game
 hunger: false
 
+
+kits:
+  diamond:
+    helmet: [310, 0, 1] # [id, damage, count]
+    chestplate: [311, 0, 1]
+    leggings: [312, 0, 1]
+    boots: [313, 0, 1]
+    0: [267, 0, 1] # 1. inventory slot
+    1: [322, 0, 5] # 2. inventory slot
+    8: [364, 0, 16] # 9. inventory slot
+    
+#dont mind anything here, its just a fix.    
+    
 # This plugin was made by David Flash [Flash Craft 2]
 # Most of the code was used from 1vs1 plugin by GamakCZ
 ...
